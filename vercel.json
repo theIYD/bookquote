@@ -1,10 +1,10 @@
 {
   "env": {
-    "MONGODB_URI": "@mongodb_uri"
+    "MONGODB_URI": "@mongodb-uri"
   },
   "build": {
     "env": {
-      "MONGODB_URI": "@mongodb_uri"
+      "MONGODB_URI": "@mongodb-uri"
     }
   }
 }
