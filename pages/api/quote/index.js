@@ -19,8 +19,28 @@ export default async function handler(req, res) {
     }
 
     case "POST": {
-      console.log("THIS IS POST");
-      res.status(200);
+      const { bookName, content } = req.body;
+
+      if (!bookName) {
+        return res.status(400).json({
+          error: false,
+          message: "Book name was not found in the payload",
+        });
+      }
+
+      if (!content) {
+        return res.status(400).json({
+          error: false,
+          message: "Quote content was not found in the payload",
+        });
+      }
+
+      const [err] = await to(new Quote({ bookName, content }).save());
+      if (err) {
+        return res.status(400).json({ error: true, err });
+      }
+
+      res.status(201).json({ error: false, message: "Quote was created" });
       break;
     }
 

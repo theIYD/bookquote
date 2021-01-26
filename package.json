@@ -1,5 +1,5 @@
 {
-  "name": "with-mongodb-mongoose",
+  "name": "bookquote",
   "version": "0.1.0",
   "scripts": {
     "dev": "next dev",
@@ -16,7 +16,9 @@
     "next": "latest",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "swr": "0.2.2"
+    "react-image-crop": "^8.6.6",
+    "swr": "0.2.2",
+    "tesseract.js": "^2.1.4"
   },
   "license": "MIT"
 }
