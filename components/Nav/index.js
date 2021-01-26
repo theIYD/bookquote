@@ -16,7 +16,9 @@ function Nav() {
           <Link href="/app">Global</Link>
         </Box>
         <Box>
-          <Button colorScheme="teal">Share</Button>
+          <Link href="/app/quote">
+            <Button colorScheme="teal">Share</Button>
+          </Link>
         </Box>
       </Flex>
     </Flex>

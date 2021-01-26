@@ -19,7 +19,7 @@ export default async function handler(req, res) {
     }
 
     case "POST": {
-      const { bookName, content } = req.body;
+      const { bookName, content, authorName } = req.body;
 
       if (!bookName) {
         return res.status(400).json({
@@ -35,7 +35,16 @@ export default async function handler(req, res) {
         });
       }
 
-      const [err] = await to(new Quote({ bookName, content }).save());
+      if (!authorName) {
+        return res.status(400).json({
+          error: false,
+          message: "Author name was not found in the payload",
+        });
+      }
+
+      const [err] = await to(
+        new Quote({ bookName, content, author: authorName }).save()
+      );
       if (err) {
         return res.status(400).json({ error: true, err });
       }

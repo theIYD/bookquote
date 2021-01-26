@@ -16,11 +16,13 @@ import {
   ModalHeader,
   ModalOverlay,
   ModalFooter,
+  useToast,
 } from "@chakra-ui/react";
 import to from "await-to-js";
 import ReactCrop from "react-image-crop";
 import "react-image-crop/dist/ReactCrop.css";
 
+import Nav from "../../../components/Nav";
 import fileReader from "../../../utils/file-reader";
 
 export default function NewQuote() {
@@ -40,6 +42,7 @@ export default function NewQuote() {
 
   const imageFileRef = useRef(null);
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const toast = useToast();
 
   const onImageUploadWrapperClick = () => {
     imageFileRef.current.click();
@@ -102,7 +105,7 @@ export default function NewQuote() {
     setText(inputValue);
   };
 
-  const getCroppedImg = (image, crop, fileName) => {
+  const getCroppedImg = (image, crop) => {
     const canvas = document.createElement("canvas");
     const scaleX = image.naturalWidth / image.width;
     const scaleY = image.naturalHeight / image.height;
@@ -128,16 +131,39 @@ export default function NewQuote() {
     });
   };
 
-  const submitQuote = async () => {};
+  const submitQuote = async (e) => {
+    e.preventDefault();
+    const res = await fetch("/api/quote", {
+      method: "POST",
+      body: JSON.stringify({
+        bookName,
+        authorName,
+        content: text,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    const data = await res.json();
+    if (data && !data.error && data.message) {
+      toast({
+        title: data.message,
+        status: "success",
+        duration: 2000,
+      });
+    } else if (data && data.error) {
+      toast({
+        title: "An error occurred",
+        status: "error",
+        duration: 2000,
+      });
+    }
+  };
 
   return (
-    <Container my={4}>
-      <Flex mb={4}>
-        <Heading as="h2" size="2xl">
-          Share a quote...
-        </Heading>
-      </Flex>
-      <Divider />
+    <Container maxWidth="960px">
+      <Nav />
       <Flex flexDirection="column">
         <Flex
           w="100%"
