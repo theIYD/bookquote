@@ -24,7 +24,6 @@ export default async function handler(req, res) {
       } = await worker.recognize(imageFile);
       await worker.terminate();
 
-      console.log("text", text);
       res.status(200).json({ error: false, text });
       break;
     }

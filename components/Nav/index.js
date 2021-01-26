@@ -10,14 +10,16 @@ function Nav() {
       <Spacer />
       <Flex w="30%" align="center" justifyContent="space-around">
         <Box>
-          <Link href="/app">Home</Link>
+          <Link href="/">Home</Link>
         </Box>
         <Box>
-          <Link href="/app">Global</Link>
+          <Link href="/app">Quotes</Link>
         </Box>
         <Box>
           <Link href="/app/quote">
-            <Button colorScheme="teal">Share</Button>
+            <Button size="sm" colorScheme="messenger">
+              Share
+            </Button>
           </Link>
         </Box>
       </Flex>

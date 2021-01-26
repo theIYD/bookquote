@@ -1,28 +1,26 @@
-import { Flex, GridItem, Badge, Text } from "@chakra-ui/react";
+import { Flex, GridItem, Text } from "@chakra-ui/react";
 import Image from "next/image";
 
-const Quote = ({ quote }) => {
+const Quote = ({ quote, borderColor, selectedQuote }) => {
   return (
-    <GridItem className="content" w="18rem">
+    <GridItem className="content">
       <Flex
         shadow="lg"
         borderBottomRadius="lg"
-        borderTop="4px solid #000"
+        borderTop={`4px solid ${borderColor}`}
         p={4}
         flexDirection="column"
         alignItems="flex-start"
+        height="10rem"
+        onClick={() => selectedQuote(quote)}
       >
         <Image src="/quote.png" width={30} height={20} />
-        <Text fontSize="lg" marginLeft={6}>
+        <Text noOfLines={3} fontSize="lg" marginLeft={6}>
           {quote.content}
         </Text>
-        <Text fontSize="xs" w="100%" textAlign="right" as="i">
+        <Text mt={2} fontSize="xs" w="100%" textAlign="right" as="i">
           - {quote.bookName}
         </Text>
-
-        {/* <Badge borderRadius="full" px="3" py="1" colorScheme="teal">
-                    {quote.user === "G" && "GUEST"}
-                </Badge> */}
       </Flex>
     </GridItem>
   );

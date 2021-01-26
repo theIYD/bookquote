@@ -20,7 +20,7 @@ export default async function handler(req, res) {
 
     case "POST": {
       const { bookName, content, authorName } = req.body;
-
+      let err = null;
       if (!bookName) {
         return res.status(400).json({
           error: false,
@@ -42,8 +42,18 @@ export default async function handler(req, res) {
         });
       }
 
-      const [err] = await to(
-        new Quote({ bookName, content, author: authorName }).save()
+      [err, count] = await to(Quote.countDocuments({}));
+      if (err) {
+        return res.status(400).json({ error: true, err });
+      }
+
+      [err] = await to(
+        new Quote({
+          bookName,
+          content,
+          author: authorName,
+          hashtag: count + 1,
+        }).save()
       );
       if (err) {
         return res.status(400).json({ error: true, err });

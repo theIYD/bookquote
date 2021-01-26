@@ -16,6 +16,9 @@ const quoteSchema = new Schema(
       type: String,
       required: true,
     },
+    hashtag: {
+      type: Number,
+    },
     user: {
       type: String,
       default: enums.GUEST,
