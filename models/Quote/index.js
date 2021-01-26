@@ -12,8 +12,9 @@ const quoteSchema = new Schema(
       type: String,
       required: true,
     },
-    previewText: {
+    author: {
       type: String,
+      required: true,
     },
     user: {
       type: String,

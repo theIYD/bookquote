@@ -9,6 +9,13 @@ import {
   Button,
   Text,
   Input,
+  useDisclosure,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalHeader,
+  ModalOverlay,
+  ModalFooter,
 } from "@chakra-ui/react";
 import to from "await-to-js";
 import ReactCrop from "react-image-crop";
@@ -23,6 +30,8 @@ export default function NewQuote() {
   const [croppedImage, setCroppedImage] = useState(null);
   const [text, setText] = useState("");
   const [isCropper, setIsCropper] = useState(false);
+  const [bookName, setBookName] = useState("");
+  const [authorName, setAuthorName] = useState("");
   const [crop, setCrop] = useState({
     unit: "%",
     width: 100,
@@ -30,6 +39,7 @@ export default function NewQuote() {
   });
 
   const imageFileRef = useRef(null);
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const onImageUploadWrapperClick = () => {
     imageFileRef.current.click();
@@ -45,6 +55,8 @@ export default function NewQuote() {
 
     setImageFile(file);
     setImage(imageResult);
+    setIsCropper(true);
+    onOpen();
   };
 
   const onImageLoaded = (image) => {
@@ -80,7 +92,8 @@ export default function NewQuote() {
     const data = await res.json();
     if (data && !data.error && data.text) {
       setText(data.text);
-      setIsCropper("none");
+      onClose();
+      setIsCropper(false);
     }
   };
 
@@ -115,6 +128,8 @@ export default function NewQuote() {
     });
   };
 
+  const submitQuote = async () => {};
+
   return (
     <Container my={4}>
       <Flex mb={4}>
@@ -138,22 +153,38 @@ export default function NewQuote() {
         </Flex>
         {image && (
           <>
-            <ReactCrop
-              src={image}
-              crop={crop}
-              style={{ display: !isCropper ? "block" : "none" }}
-              onImageLoaded={onImageLoaded}
-              onComplete={onCropComplete}
-              onChange={onCropChange}
-            />
-            <Button
-              style={{ display: isCropper }}
-              onClick={onProcessButtonClick}
-              colorScheme="teal"
-              size="sm"
+            <Modal
+              closeOnOverlayClick={false}
+              isOpen={isOpen}
+              onClose={onClose}
             >
-              Process
-            </Button>
+              <ModalOverlay />
+              <ModalContent>
+                <ModalHeader>Crop</ModalHeader>
+                <ModalBody>
+                  <ReactCrop
+                    src={image}
+                    crop={crop}
+                    style={{ display: !isCropper ? "none" : "block" }}
+                    onImageLoaded={onImageLoaded}
+                    onComplete={onCropComplete}
+                    onChange={onCropChange}
+                  />
+                </ModalBody>
+
+                <ModalFooter>
+                  <Button
+                    style={{ display: !isCropper ? "none" : "block" }}
+                    onClick={onProcessButtonClick}
+                    colorScheme="teal"
+                    size="sm"
+                    w="100%"
+                  >
+                    Process
+                  </Button>
+                </ModalFooter>
+              </ModalContent>
+            </Modal>
           </>
         )}
         {!image && (
@@ -163,11 +194,12 @@ export default function NewQuote() {
             </Text>
           </Flex>
         )}
-        <form onSubmit={() => {}}>
+        <form onSubmit={submitQuote}>
           <Flex mt={4}>
             <FormControl>
               <Textarea
                 rows={10}
+                required
                 value={text}
                 onChange={handleTextChange}
                 placeholder="Quote: It is a far, far better thing that I do, than I have ever done; it is a far, far better rest I go to than I have ever known."
@@ -176,17 +208,27 @@ export default function NewQuote() {
           </Flex>
           <Flex>
             <FormControl>
-              <Input placeholder="Book: A Tale of Two Cities" />
+              <Input
+                value={bookName}
+                onChange={(e) => setBookName(e.target.value)}
+                required
+                placeholder="Book: A Tale of Two Cities"
+              />
             </FormControl>
             <FormControl>
-              <Input placeholder="Author: Charles Dickens" />
+              <Input
+                value={authorName}
+                onChange={(e) => setAuthorName(e.target.value)}
+                required
+                placeholder="Author: Charles Dickens"
+              />
             </FormControl>
           </Flex>
           <Button
             mt={4}
             w="100%"
             type="submit"
-            disabled
+            disabled={!text || !bookName || !authorName}
             colorScheme="teal"
             size="sm"
           >
