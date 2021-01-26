@@ -18,6 +18,7 @@ const quoteSchema = new Schema(
     },
     hashtag: {
       type: Number,
+      required: true,
     },
     user: {
       type: String,

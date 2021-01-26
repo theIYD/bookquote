@@ -21,6 +21,7 @@ export default async function handler(req, res) {
     case "POST": {
       const { bookName, content, authorName } = req.body;
       let err = null;
+      let count = null;
       if (!bookName) {
         return res.status(400).json({
           error: false,

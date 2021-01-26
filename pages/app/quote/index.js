@@ -34,6 +34,7 @@ export default function NewQuote() {
   const [isCropper, setIsCropper] = useState(false);
   const [bookName, setBookName] = useState("");
   const [authorName, setAuthorName] = useState("");
+  const [loading, setLoading] = useState(false);
   const [crop, setCrop] = useState({
     unit: "%",
     width: 100,
@@ -82,6 +83,7 @@ export default function NewQuote() {
   };
 
   const onProcessButtonClick = async () => {
+    setLoading(true);
     const res = await fetch("/api/process", {
       method: "POST",
       body: JSON.stringify({
@@ -94,6 +96,7 @@ export default function NewQuote() {
 
     const data = await res.json();
     if (data && !data.error && data.text) {
+      setLoading(false);
       setText(data.text);
       onClose();
       setIsCropper(false);
@@ -202,7 +205,8 @@ export default function NewQuote() {
                   <Button
                     style={{ display: !isCropper ? "none" : "block" }}
                     onClick={onProcessButtonClick}
-                    colorScheme="teal"
+                    colorScheme="messenger"
+                    isLoading={loading}
                     size="sm"
                     w="100%"
                   >
@@ -233,7 +237,7 @@ export default function NewQuote() {
             </FormControl>
           </Flex>
           <Flex>
-            <FormControl>
+            <FormControl mr={4}>
               <Input
                 value={bookName}
                 onChange={(e) => setBookName(e.target.value)}
@@ -255,7 +259,7 @@ export default function NewQuote() {
             w="100%"
             type="submit"
             disabled={!text || !bookName || !authorName}
-            colorScheme="teal"
+            colorScheme="messenger"
             size="sm"
           >
             Share

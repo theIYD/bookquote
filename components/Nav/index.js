@@ -5,15 +5,14 @@ function Nav() {
   return (
     <Flex borderBottom="1px solid #eee" py="4">
       <Box p="2">
-        <Heading size="md">BookQuote</Heading>
+        <Heading size="md">
+          <Link href="/">BookQuote</Link>
+        </Heading>
       </Box>
       <Spacer />
-      <Flex w="30%" align="center" justifyContent="space-around">
-        <Box>
-          <Link href="/">Home</Link>
-        </Box>
-        <Box>
-          <Link href="/app">Quotes</Link>
+      <Flex align="center" justifyContent="space-around">
+        <Box mr={6}>
+          <Link href="/app">Home</Link>
         </Box>
         <Box>
           <Link href="/app/quote">

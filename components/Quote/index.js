@@ -12,6 +12,7 @@ const Quote = ({ quote, borderColor, selectedQuote }) => {
         flexDirection="column"
         alignItems="flex-start"
         height="10rem"
+        cursor="pointer"
         onClick={() => selectedQuote(quote)}
       >
         <Image src="/quote.png" width={30} height={20} />
