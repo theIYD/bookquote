@@ -1,13 +1,12 @@
 import { useState } from "react";
-import { Flex, GridItem, Text, IconButton } from "@chakra-ui/react";
+import { Flex, GridItem, Text, IconButton, Link } from "@chakra-ui/react";
 import { CopyIcon } from "@chakra-ui/icons";
 import Image from "next/image";
 import { useClipboard, useToast } from "@chakra-ui/react";
+import { FaTwitter } from "react-icons/fa";
 
 const Quote = ({ quote, borderColor, selectedQuote }) => {
-  const [copiedQuote, setCopiedQuote] = useState(
-    `${quote.content} - ${quote.bookName}`
-  );
+  const [copiedQuote] = useState(`${quote.content} - ${quote.bookName}`);
   const { onCopy } = useClipboard(copiedQuote);
   const toast = useToast();
 
@@ -47,7 +46,25 @@ const Quote = ({ quote, borderColor, selectedQuote }) => {
           - {quote.bookName}
         </Text>
         <Flex marginTop="auto">
-          <IconButton size="sm" aria-label="Copy quote" icon={<CopyIcon />} />
+          <IconButton
+            size="xs"
+            aria-label="Copy quote"
+            icon={<CopyIcon />}
+            mr={2}
+          />
+          <Link
+            isExternal
+            href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(
+              `${quote.content + "\n\nfrom " + quote.bookName}`
+            )}`}
+          >
+            <IconButton
+              colorScheme="twitter"
+              size="xs"
+              aria-label="Twitter"
+              icon={<FaTwitter />}
+            />
+          </Link>
         </Flex>
       </Flex>
     </GridItem>
