@@ -74,6 +74,45 @@ export default async function handler(req, res) {
       break;
     }
 
+    case "PUT": {
+      const { bookName, content, authorName, isPublic, id } = req.body;
+      if (!bookName) {
+        return res.status(400).json({
+          error: false,
+          message: "Book name was not found in the payload",
+        });
+      }
+
+      if (!content) {
+        return res.status(400).json({
+          error: false,
+          message: "Quote content was not found in the payload",
+        });
+      }
+
+      if (!authorName) {
+        return res.status(400).json({
+          error: false,
+          message: "Author name was not found in the payload",
+        });
+      }
+
+      const quoteData = {
+        bookName,
+        content,
+        author: authorName,
+        isPublic,
+      };
+
+      const [err] = await to(Quote.findOneAndUpdate({ userId: id }, quoteData));
+      if (err) {
+        return res.status(400).json({ error: true, err });
+      }
+
+      res.status(200).json({ error: false, message: "Quote was updated" });
+      break;
+    }
+
     default:
       res.status(400);
       break;

@@ -18,11 +18,11 @@ import {
 } from "@chakra-ui/react";
 import { parseCookies } from "nookies";
 
-export default function Share({ onClose, isOpen }) {
-  const [quote, setQuote] = useState("");
-  const [book, setBook] = useState("");
-  const [author, setAuthor] = useState("");
-  const [isPublic, setIsPublic] = useState(false);
+export default function Share({ onClose, isOpen, edit }) {
+  const [quote, setQuote] = useState((edit && edit.content) || "");
+  const [book, setBook] = useState((edit && edit.bookName) || "");
+  const [author, setAuthor] = useState((edit && edit.author) || "");
+  const [isPublic, setIsPublic] = useState((edit && !!edit.isPublic) || false);
   const toast = useToast();
   const router = useRouter();
 
@@ -52,15 +52,21 @@ export default function Share({ onClose, isOpen }) {
       postData["id"] = id;
     }
 
-    const res = await fetch("/api/quote", {
+    const options = {
       method: "POST",
       body: JSON.stringify(postData),
       headers: {
         "Content-Type": "application/json",
       },
-    });
+    };
 
+    if (Object.keys(edit).length !== 0) {
+      options.method = "PUT";
+    }
+
+    const res = await fetch("/api/quote", options);
     const data = await res.json();
+
     if (data && !data.error && data.message) {
       toast({
         title: data.message,
@@ -117,8 +123,9 @@ export default function Share({ onClose, isOpen }) {
                     Global share ?
                   </FormLabel>
                   <Switch
-                    onChange={(e) => setIsPublic(!isPublic)}
+                    onChange={() => setIsPublic(!isPublic)}
                     id="is-public"
+                    defaultChecked={isPublic}
                     colorScheme="messenger"
                   />
                 </FormControl>

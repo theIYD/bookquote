@@ -10,6 +10,7 @@ import {
   MenuButton,
   MenuList,
   MenuItem,
+  useDisclosure,
 } from "@chakra-ui/react";
 import { CopyIcon } from "@chakra-ui/icons";
 import Image from "next/image";
@@ -20,11 +21,14 @@ import { AiFillDelete } from "react-icons/ai";
 import { BiShow } from "react-icons/bi";
 import { parseCookies } from "nookies";
 
+import Share from "../Share";
+
 const Quote = ({ quote, borderColor, selectedQuote }) => {
   const [copiedQuote] = useState(`${quote.content} - ${quote.bookName}`);
   const { onCopy } = useClipboard(copiedQuote);
   const toast = useToast();
   const router = useRouter();
+  const { isOpen, onClose, onOpen } = useDisclosure();
 
   let user = parseCookies().user;
   if (user) {
@@ -102,7 +106,9 @@ const Quote = ({ quote, borderColor, selectedQuote }) => {
                   variant="outline"
                 />
                 <MenuList>
-                  <MenuItem icon={<FaEdit />}>Edit</MenuItem>
+                  <MenuItem onClick={() => onOpen()} icon={<FaEdit />}>
+                    Edit
+                  </MenuItem>
                   <MenuItem icon={<AiFillDelete />}>Delete</MenuItem>
                 </MenuList>
               </Menu>
@@ -116,6 +122,7 @@ const Quote = ({ quote, borderColor, selectedQuote }) => {
           </Flex>
         </Flex>
       </Flex>
+      <Share isOpen={isOpen} onClose={onClose} edit={quote} />
     </GridItem>
   );
 };
