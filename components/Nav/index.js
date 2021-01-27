@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { useRouter } from "next/router";
 import {
   Flex,
   Box,
@@ -26,6 +27,7 @@ function Nav() {
     isSignedIn: false,
   });
   const [loading, setLoading] = useState(true);
+  const router = useRouter();
 
   useEffect(() => {
     const user = parseCookies().user;
@@ -37,6 +39,7 @@ function Nav() {
 
   const responseGoogle = (response) => {
     if (!response.error && response.profileObj) {
+      const { googleId } = response;
       const { name, imageUrl } = response.profileObj;
       setCookie(
         null,
@@ -44,6 +47,7 @@ function Nav() {
         JSON.stringify({
           name,
           profileUrl: imageUrl,
+          id: googleId,
           isSignedIn: true,
         }),
         {
@@ -51,7 +55,8 @@ function Nav() {
           path: "/",
         }
       );
-      setUser({ name, profileUrl: imageUrl, isSignedIn: true });
+      setUser({ name, profileUrl: imageUrl, isSignedIn: true, id: googleId });
+      router.replace("/app");
     }
   };
 

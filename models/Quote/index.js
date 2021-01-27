@@ -28,6 +28,9 @@ const quoteSchema = new Schema(
       type: String,
       default: enums.GUEST,
     },
+    userId: {
+      type: String,
+    },
   },
   {
     timestamps: true,

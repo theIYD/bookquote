@@ -3,13 +3,17 @@ import dbConnect from "../../../utils/database";
 import Quote from "../../../models/Quote";
 
 export default async function handler(req, res) {
-  const { method } = req;
+  const { method, query } = req;
 
   await dbConnect();
-
   switch (method) {
     case "GET": {
-      const [err, quotes] = await to(Quote.find({}));
+      let err, quotes;
+      if (query && query.me) {
+        [err, quotes] = await to(Quote.find({ userId: query.me }));
+      } else {
+        [err, quotes] = await to(Quote.find({}));
+      }
       if (err) {
         res.status(400).json({ error: true, err });
       }
@@ -19,7 +23,7 @@ export default async function handler(req, res) {
     }
 
     case "POST": {
-      const { bookName, content, authorName, isPublic, user } = req.body;
+      const { bookName, content, authorName, isPublic, user, id } = req.body;
       let err = null;
       let count = null;
       if (!bookName) {
@@ -56,8 +60,9 @@ export default async function handler(req, res) {
         isPublic,
       };
 
-      if (user) {
+      if (user && id) {
         quoteData["user"] = user;
+        quoteData["userId"] = id;
       }
 
       [err] = await to(new Quote(quoteData).save());

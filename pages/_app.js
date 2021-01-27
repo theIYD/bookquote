@@ -10,6 +10,9 @@ function MyApp({ Component, pageProps }) {
     },
     styles: {
       global: {
+        html: {
+          marginLeft: "calc(100vw - 100%)",
+        },
         body: {
           fontSize: "sm",
           fontWeight: "400",

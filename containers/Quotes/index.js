@@ -23,8 +23,14 @@ import { FaAmazon } from "react-icons/fa";
 
 import Quote from "../../components/Quote";
 
-export default function Quotes() {
-  const { data, error } = useSwr("/api/quote", fetcher);
+export default function Quotes({ user }) {
+  let url = "";
+  if (user) {
+    url = `/api/quote?me=${user.id}`;
+  } else {
+    url = "/api/quote";
+  }
+  const { data, error } = useSwr(url, fetcher);
   const [quote, setQuote] = useState(null);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -45,7 +51,7 @@ export default function Quotes() {
   if (error) return "An error has occurred.";
   else if (!data)
     return (
-      <Flex alignItems="center" justifyContent="center">
+      <Flex mt={2} alignItems="center" justifyContent="center">
         <Spinner />
       </Flex>
     );

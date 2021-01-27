@@ -25,12 +25,14 @@ export default function Share({ onClose, isOpen }) {
   const toast = useToast();
 
   let isSignedIn = false;
-  let name = "";
+  let name = "",
+    id = "";
   const user = parseCookies().user;
   if (user) {
     let parsedUser = JSON.parse(user);
     isSignedIn = parsedUser.isSignedIn;
     name = parsedUser.name;
+    id = parsedUser.id;
   }
 
   const submitQuote = async (e) => {
@@ -43,8 +45,9 @@ export default function Share({ onClose, isOpen }) {
       isPublic,
     };
 
-    if (name) {
+    if (name && id) {
       postData["user"] = name;
+      postData["id"] = id;
     }
 
     const res = await fetch("/api/quote", {
