@@ -101,6 +101,9 @@ export default function Share({ onClose, isOpen }) {
             </Flex>
           </ModalBody>
           <ModalFooter>
+            <Button size="sm" colorScheme="gray" mr={3} onClick={onClose}>
+              Cancel
+            </Button>
             <Button type="submit" size="sm" colorScheme="messenger">
               Share
             </Button>

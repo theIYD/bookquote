@@ -15,8 +15,11 @@
     "framer-motion": "^3.2.2-rc.1",
     "mongoose": "^5.9.13",
     "next": "latest",
+    "nookies": "^2.5.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "react-google-login": "^5.2.2",
+    "react-icons": "^4.1.0",
     "swr": "0.2.2"
   },
   "license": "MIT"

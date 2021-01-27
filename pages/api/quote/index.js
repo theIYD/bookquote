@@ -48,6 +48,7 @@ export default async function handler(req, res) {
         return res.status(400).json({ error: true, err });
       }
 
+      console.log(req.body);
       [err] = await to(
         new Quote({
           bookName,

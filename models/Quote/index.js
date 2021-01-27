@@ -22,7 +22,7 @@ const quoteSchema = new Schema(
     },
     isPublic: {
       type: Boolean,
-      default: false,
+      required: true,
     },
     user: {
       type: String,
