@@ -17,7 +17,7 @@ const quoteSchema = new Schema(
       required: true,
     },
     hashtag: {
-      type: Number,
+      type: String,
       required: true,
     },
     isPublic: {

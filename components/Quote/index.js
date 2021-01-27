@@ -44,6 +44,25 @@ const Quote = ({ quote, borderColor, selectedQuote }) => {
     });
   };
 
+  const deleteQuote = async () => {
+    const res = await fetch("/api/quote", {
+      method: "DELETE",
+      body: JSON.stringify({ quoteId: quote._id }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    const data = await res.json();
+    if (data && !data.error && data.message) {
+      toast({
+        title: data.message,
+        status: "success",
+        duration: 1000,
+      });
+    }
+  };
+
   return (
     <GridItem>
       <Flex
@@ -109,7 +128,12 @@ const Quote = ({ quote, borderColor, selectedQuote }) => {
                   <MenuItem onClick={() => onOpen()} icon={<FaEdit />}>
                     Edit
                   </MenuItem>
-                  <MenuItem icon={<AiFillDelete />}>Delete</MenuItem>
+                  <MenuItem
+                    onClick={() => deleteQuote()}
+                    icon={<AiFillDelete />}
+                  >
+                    Delete
+                  </MenuItem>
                 </MenuList>
               </Menu>
             )}

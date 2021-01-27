@@ -60,7 +60,7 @@ export default function Share({ onClose, isOpen, edit }) {
       },
     };
 
-    if (Object.keys(edit).length !== 0) {
+    if (edit && Object.keys(edit).length !== 0) {
       options.method = "PUT";
     }
 

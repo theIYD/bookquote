@@ -1,6 +1,11 @@
 import to from "await-to-js";
 import dbConnect from "../../../utils/database";
 import Quote from "../../../models/Quote";
+import {
+  uniqueNamesGenerator,
+  adjectives,
+  names,
+} from "unique-names-generator";
 
 export default async function handler(req, res) {
   const { method, query } = req;
@@ -47,16 +52,15 @@ export default async function handler(req, res) {
         });
       }
 
-      [err, count] = await to(Quote.countDocuments({}));
-      if (err) {
-        return res.status(400).json({ error: true, err });
-      }
+      const hashtag = uniqueNamesGenerator({
+        dictionaries: [adjectives, names],
+      });
 
       const quoteData = {
         bookName,
         content,
         author: authorName,
-        hashtag: count + 1,
+        hashtag,
         isPublic,
       };
 
@@ -110,6 +114,23 @@ export default async function handler(req, res) {
       }
 
       res.status(200).json({ error: false, message: "Quote was updated" });
+      break;
+    }
+
+    case "DELETE": {
+      const { quoteId } = req.body;
+      if (!quoteId) {
+        return res
+          .status(400)
+          .json({ error: false, message: "QuoteId not in payload" });
+      }
+
+      const [err] = await to(Quote.findOneAndRemove({ _id: quoteId }));
+      if (err) {
+        return res.status(400).json({ error: true, err });
+      }
+
+      res.status(200).json({ error: false, message: "Quote deleted" });
       break;
     }
 
