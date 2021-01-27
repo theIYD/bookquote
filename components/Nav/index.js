@@ -7,6 +7,7 @@ import {
   Spacer,
   Button,
   Avatar,
+  Spinner,
   useDisclosure,
 } from "@chakra-ui/react";
 
@@ -23,12 +24,14 @@ function Nav() {
     profileUrl: "",
     isSignedIn: false,
   });
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const user = parseCookies().user;
     if (user) {
       setUser({ ...JSON.parse(user), isSignedIn: true });
     }
+    setLoading(false);
   }, []);
 
   const responseGoogle = (response) => {
@@ -64,7 +67,9 @@ function Nav() {
           <Link href="/app">Home</Link>
         </Box>
         <Box mr={4}>
-          {user && user.isSignedIn ? (
+          {loading ? (
+            <Spinner />
+          ) : user && user.isSignedIn ? (
             <Link href="/app/me">
               <Avatar
                 cursor="pointer"

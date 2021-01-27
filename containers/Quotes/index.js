@@ -3,12 +3,14 @@ import {
   Grid,
   Box,
   Modal,
+  Flex,
   ModalContent,
   ModalOverlay,
   ModalHeader,
   ModalFooter,
   ModalBody,
   Button,
+  Spinner,
   useDisclosure,
 } from "@chakra-ui/react";
 import useSwr from "swr";
@@ -36,7 +38,12 @@ export default function Quotes() {
   ];
 
   if (error) return "An error has occurred.";
-  else if (!data) return "Loading...";
+  else if (!data)
+    return (
+      <Flex alignItems="center" justifyContent="center">
+        <Spinner />
+      </Flex>
+    );
   else if (data && data.quotes)
     return (
       <Grid
