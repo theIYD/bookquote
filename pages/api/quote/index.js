@@ -19,7 +19,7 @@ export default async function handler(req, res) {
     }
 
     case "POST": {
-      const { bookName, content, authorName } = req.body;
+      const { bookName, content, authorName, isPublic } = req.body;
       let err = null;
       let count = null;
       if (!bookName) {
@@ -54,6 +54,7 @@ export default async function handler(req, res) {
           content,
           author: authorName,
           hashtag: count + 1,
+          isPublic,
         }).save()
       );
       if (err) {

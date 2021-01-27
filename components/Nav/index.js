@@ -1,7 +1,17 @@
 import Link from "next/link";
-import { Flex, Box, Heading, Spacer, Button } from "@chakra-ui/react";
+import {
+  Flex,
+  Box,
+  Heading,
+  Spacer,
+  Button,
+  useDisclosure,
+} from "@chakra-ui/react";
+
+import Share from "../Share";
 
 function Nav() {
+  const { isOpen, onClose, onOpen } = useDisclosure();
   return (
     <Flex borderBottom="1px solid #eee" py="4">
       <Box p="2">
@@ -15,13 +25,12 @@ function Nav() {
           <Link href="/app">Home</Link>
         </Box>
         <Box>
-          <Link href="/app">
-            <Button size="sm" colorScheme="messenger">
-              Share
-            </Button>
-          </Link>
+          <Button size="sm" colorScheme="messenger" onClick={() => onOpen()}>
+            Share
+          </Button>
         </Box>
       </Flex>
+      <Share isOpen={isOpen} onClose={onClose} />
     </Flex>
   );
 }

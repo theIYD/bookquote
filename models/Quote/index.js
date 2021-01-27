@@ -20,6 +20,10 @@ const quoteSchema = new Schema(
       type: Number,
       required: true,
     },
+    isPublic: {
+      type: Boolean,
+      default: false,
+    },
     user: {
       type: String,
       default: enums.GUEST,
