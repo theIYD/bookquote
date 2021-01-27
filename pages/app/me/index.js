@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { parseCookies } from "nookies";
 import { Spinner, Flex } from "@chakra-ui/react";
 
-import Nav from "../../../components/Nav";
 import HeaderText from "../../../components/HeaderText";
 import Quotes from "../../../containers/Quotes";
 
@@ -21,7 +20,6 @@ export default function Me() {
 
   return (
     <Container maxW="960px">
-      <Nav />
       {!loading ? (
         <>
           <HeaderText text="your quotes" />

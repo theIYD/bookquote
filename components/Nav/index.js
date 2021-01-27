@@ -10,6 +10,7 @@ import {
   Button,
   Avatar,
   Spinner,
+  Container,
   useDisclosure,
 } from "@chakra-ui/react";
 
@@ -61,62 +62,64 @@ function Nav() {
   };
 
   return (
-    <Flex borderBottom="1px solid #eee" pb="2" pt="4">
-      <Box p="2">
-        <Heading fontWeight="800" size="md">
-          <Link href="/">
-            <Flex cursor="pointer">
-              <Image src="/images/logo.svg" width="30px" height="30px" />
-            </Flex>
-          </Link>
-        </Heading>
-      </Box>
-      <Spacer />
-      <Flex align="center" justifyContent="space-around">
-        <Box mr={4}>
-          <Link href="/app">Home</Link>
-        </Box>
-        <Box mr={4}>
-          {loading ? (
-            <Spinner />
-          ) : user && user.isSignedIn ? (
-            <Link href="/app/me">
-              <Avatar
-                cursor="pointer"
-                size="sm"
-                name={user.name}
-                src={user.profileUrl}
-              />
+    <Container maxWidth="960px">
+      <Flex borderBottom="1px solid #eee" pb="2" pt="4">
+        <Box p="2">
+          <Heading fontWeight="800" size="md">
+            <Link href="/">
+              <Flex cursor="pointer">
+                <Image src="/images/logo.svg" width="30px" height="30px" />
+              </Flex>
             </Link>
-          ) : (
-            <GoogleLogin
-              clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}
-              render={(renderProps) => (
-                <Button
-                  onClick={renderProps.onClick}
-                  disabled={renderProps.disabled}
+          </Heading>
+        </Box>
+        <Spacer />
+        <Flex align="center" justifyContent="space-around">
+          <Box mr={4}>
+            <Link href="/app">Home</Link>
+          </Box>
+          <Box mr={4}>
+            {loading ? (
+              <Spinner />
+            ) : user && user.isSignedIn ? (
+              <Link href="/app/me">
+                <Avatar
+                  cursor="pointer"
                   size="sm"
-                  colorScheme="gray"
-                  leftIcon={<FcGoogle />}
-                >
-                  Sign In
-                </Button>
-              )}
-              buttonText="Login"
-              onSuccess={responseGoogle}
-              onFailure={responseGoogle}
-              cookiePolicy={"single_host_origin"}
-            />
-          )}
-        </Box>
-        <Box>
-          <Button size="sm" colorScheme="messenger" onClick={() => onOpen()}>
-            Share
-          </Button>
-        </Box>
+                  name={user.name}
+                  src={user.profileUrl}
+                />
+              </Link>
+            ) : (
+              <GoogleLogin
+                clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}
+                render={(renderProps) => (
+                  <Button
+                    onClick={renderProps.onClick}
+                    disabled={renderProps.disabled}
+                    size="sm"
+                    colorScheme="gray"
+                    leftIcon={<FcGoogle />}
+                  >
+                    Sign In
+                  </Button>
+                )}
+                buttonText="Login"
+                onSuccess={responseGoogle}
+                onFailure={responseGoogle}
+                cookiePolicy={"single_host_origin"}
+              />
+            )}
+          </Box>
+          <Box>
+            <Button size="sm" colorScheme="messenger" onClick={() => onOpen()}>
+              Share
+            </Button>
+          </Box>
+        </Flex>
+        <Share isOpen={isOpen} onClose={onClose} />
       </Flex>
-      <Share isOpen={isOpen} onClose={onClose} />
-    </Flex>
+    </Container>
   );
 }
 

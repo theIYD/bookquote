@@ -77,7 +77,7 @@ export default function Share({ onClose, isOpen }) {
   };
 
   return (
-    <Modal onClose={onClose} isOpen={isOpen} isCentered>
+    <Modal preserveScrollBarGap onClose={onClose} isOpen={isOpen} isCentered>
       <ModalOverlay />
       <ModalContent>
         <form onSubmit={submitQuote}>

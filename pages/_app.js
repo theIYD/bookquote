@@ -1,9 +1,21 @@
 import Head from "next/head";
+import { useRouter } from "next/router";
+
 import { ChakraProvider, extendTheme } from "@chakra-ui/react";
 import { Global } from "@emotion/react";
 import fonts from "../styles/font-face";
 
+import Nav from "../components/Nav";
+
+const navBlacklist = ["/"];
+
 function MyApp({ Component, pageProps }) {
+  return <Component {...pageProps} />;
+}
+
+const WrappedApp = ({ Component, pageProps }) => {
+  const router = useRouter();
+
   const theme = extendTheme({
     fonts: {
       body: "'Inter', sans-serif",
@@ -38,9 +50,10 @@ function MyApp({ Component, pageProps }) {
         ></meta>
         <link rel="icon" type="image/jpg" href="/favicon.ico"></link>
       </Head>
-      <Component {...pageProps} />
+      {!navBlacklist.includes(router.pathname) && <Nav />}
+      <MyApp Component={Component} pageProps={pageProps} />
     </ChakraProvider>
   );
-}
+};
 
-export default MyApp;
+export default WrappedApp;
