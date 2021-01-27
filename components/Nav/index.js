@@ -15,7 +15,7 @@ function Nav() {
           <Link href="/app">Home</Link>
         </Box>
         <Box>
-          <Link href="/app/quote">
+          <Link href="/app">
             <Button size="sm" colorScheme="messenger">
               Share
             </Button>
