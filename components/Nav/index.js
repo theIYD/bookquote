@@ -43,7 +43,7 @@ function Nav() {
         JSON.stringify({
           name,
           profileUrl: imageUrl,
-          isSignedIn: user.isSignedIn,
+          isSignedIn: true,
         }),
         {
           maxAge: 30 * 24 * 60 * 60,

@@ -15,14 +15,20 @@ import {
   FormLabel,
   useToast,
 } from "@chakra-ui/react";
+import { parseCookies } from "nookies";
 
 export default function Share({ onClose, isOpen }) {
   const [quote, setQuote] = useState("");
   const [book, setBook] = useState("");
   const [author, setAuthor] = useState("");
   const [isPublic, setIsPublic] = useState(false);
-
   const toast = useToast();
+
+  let isSignedIn = false;
+  const user = parseCookies().user;
+  if (user) {
+    isSignedIn = JSON.parse(user).isSignedIn;
+  }
 
   const submitQuote = async (e) => {
     e.preventDefault();
@@ -88,16 +94,18 @@ export default function Share({ onClose, isOpen }) {
                   placeholder="Book: "
                 />
               </FormControl>
-              <FormControl display="flex" alignItems="center">
-                <FormLabel fontSize="sm" htmlFor="is-public" mb="0">
-                  Global share ?
-                </FormLabel>
-                <Switch
-                  onChange={(e) => setIsPublic(!isPublic)}
-                  id="is-public"
-                  colorScheme="messenger"
-                />
-              </FormControl>
+              {isSignedIn && (
+                <FormControl display="flex" alignItems="center">
+                  <FormLabel fontSize="sm" htmlFor="is-public" mb="0">
+                    Global share ?
+                  </FormLabel>
+                  <Switch
+                    onChange={(e) => setIsPublic(!isPublic)}
+                    id="is-public"
+                    colorScheme="messenger"
+                  />
+                </FormControl>
+              )}
             </Flex>
           </ModalBody>
           <ModalFooter>
