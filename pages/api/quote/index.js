@@ -19,7 +19,7 @@ export default async function handler(req, res) {
     }
 
     case "POST": {
-      const { bookName, content, authorName, isPublic } = req.body;
+      const { bookName, content, authorName, isPublic, user } = req.body;
       let err = null;
       let count = null;
       if (!bookName) {
@@ -48,16 +48,19 @@ export default async function handler(req, res) {
         return res.status(400).json({ error: true, err });
       }
 
-      console.log(req.body);
-      [err] = await to(
-        new Quote({
-          bookName,
-          content,
-          author: authorName,
-          hashtag: count + 1,
-          isPublic,
-        }).save()
-      );
+      const quoteData = {
+        bookName,
+        content,
+        author: authorName,
+        hashtag: count + 1,
+        isPublic,
+      };
+
+      if (user) {
+        quoteData["user"] = user;
+      }
+
+      [err] = await to(new Quote(quoteData).save());
       if (err) {
         return res.status(400).json({ error: true, err });
       }

@@ -25,21 +25,31 @@ export default function Share({ onClose, isOpen }) {
   const toast = useToast();
 
   let isSignedIn = false;
+  let name = "";
   const user = parseCookies().user;
   if (user) {
-    isSignedIn = JSON.parse(user).isSignedIn;
+    let parsedUser = JSON.parse(user);
+    isSignedIn = parsedUser.isSignedIn;
+    name = parsedUser.name;
   }
 
   const submitQuote = async (e) => {
     e.preventDefault();
+
+    let postData = {
+      bookName: book,
+      authorName: author,
+      content: quote,
+      isPublic,
+    };
+
+    if (name) {
+      postData["user"] = name;
+    }
+
     const res = await fetch("/api/quote", {
       method: "POST",
-      body: JSON.stringify({
-        bookName: book,
-        authorName: author,
-        content: quote,
-        isPublic,
-      }),
+      body: JSON.stringify(postData),
       headers: {
         "Content-Type": "application/json",
       },

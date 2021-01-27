@@ -45,7 +45,7 @@ const Quote = ({ quote, borderColor, selectedQuote }) => {
         <Text mt={2} fontSize="xs" w="100%" textAlign="right" as="i">
           - {quote.bookName}
         </Text>
-        <Flex marginTop="auto">
+        <Flex marginTop="auto" alignItems="center">
           <IconButton
             size="xs"
             aria-label="Copy quote"

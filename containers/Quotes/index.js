@@ -4,6 +4,8 @@ import {
   Box,
   Modal,
   Flex,
+  IconButton,
+  Link,
   ModalContent,
   ModalOverlay,
   ModalHeader,
@@ -11,10 +13,13 @@ import {
   ModalBody,
   Button,
   Spinner,
+  Divider,
+  Text,
   useDisclosure,
 } from "@chakra-ui/react";
 import useSwr from "swr";
 import fetcher from "../../utils/fetcher";
+import { FaAmazon } from "react-icons/fa";
 
 import Quote from "../../components/Quote";
 
@@ -48,7 +53,7 @@ export default function Quotes() {
     return (
       <Grid
         gap={4}
-        mt={4}
+        my={4}
         templateColumns="repeat(auto-fit, minmax(18.4375rem, 1fr))"
         id="grid"
       >
@@ -74,7 +79,37 @@ export default function Quotes() {
           <ModalContent>
             <ModalHeader>#{quote && quote.hashtag}</ModalHeader>
             <ModalBody>{quote && quote.content}</ModalBody>
-            <ModalFooter>
+            <ModalFooter
+              d="flex"
+              justifyContent="space-between"
+              alignItems="center"
+            >
+              <Flex alignItems="center" justifyContent="space-around">
+                <Link
+                  isExternal
+                  href={`https://www.amazon.in/s?k=${encodeURIComponent(
+                    quote && quote.bookName
+                  )}`}
+                >
+                  <IconButton
+                    colorScheme="gray"
+                    size="sm"
+                    aria-label="Amazon"
+                    icon={<FaAmazon />}
+                  />
+                </Link>
+                <Box mx={2} height="30px">
+                  <Divider orientation="vertical" />
+                </Box>
+                <Text
+                  as="b"
+                  textColor="#ccc"
+                  textTransform="uppercase"
+                  fontSize="xs"
+                >
+                  Posted by {quote && quote.user !== "G" ? quote.user : "Guest"}
+                </Text>
+              </Flex>
               <Button size="sm" colorScheme="messenger" onClick={onClose}>
                 Okay
               </Button>

@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import {
   Flex,
   Box,
@@ -55,10 +56,14 @@ function Nav() {
   };
 
   return (
-    <Flex borderBottom="1px solid #eee" py="4">
+    <Flex borderBottom="1px solid #eee" pb="2" pt="4">
       <Box p="2">
-        <Heading size="md">
-          <Link href="/">BookQuote</Link>
+        <Heading fontWeight="800" size="md">
+          <Link href="/">
+            <Flex cursor="pointer">
+              <Image src="/images/logo.svg" width="30px" height="30px" />
+            </Flex>
+          </Link>
         </Heading>
       </Box>
       <Spacer />
