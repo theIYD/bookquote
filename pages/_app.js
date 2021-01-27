@@ -25,11 +25,13 @@ const WrappedApp = ({ Component, pageProps }) => {
       global: {
         html: {
           marginLeft: "calc(100vw - 100%)",
+          height: "100%",
         },
         body: {
           fontSize: "sm",
           fontWeight: "400",
           color: "gray.700",
+          height: "100%",
         },
       },
     },

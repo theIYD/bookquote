@@ -1,33 +1,47 @@
 import { useState } from "react";
-import { Flex, GridItem, Text, IconButton, Link } from "@chakra-ui/react";
+import { useRouter } from "next/router";
+import {
+  Flex,
+  GridItem,
+  Text,
+  IconButton,
+  Link,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+} from "@chakra-ui/react";
 import { CopyIcon } from "@chakra-ui/icons";
 import Image from "next/image";
 import { useClipboard, useToast } from "@chakra-ui/react";
-import { FaTwitter, FaBook } from "react-icons/fa";
+import { FaTwitter, FaBook, FaEdit } from "react-icons/fa";
+import { IoOptions } from "react-icons/io5";
+import { AiFillDelete } from "react-icons/ai";
+import { BiShow } from "react-icons/bi";
+import { parseCookies } from "nookies";
 
 const Quote = ({ quote, borderColor, selectedQuote }) => {
   const [copiedQuote] = useState(`${quote.content} - ${quote.bookName}`);
   const { onCopy } = useClipboard(copiedQuote);
   const toast = useToast();
+  const router = useRouter();
 
-  const onClickItem = (e) => {
-    if (
-      e.target.getAttribute("aria-label") === "Copy quote" ||
-      e.target instanceof SVGElement
-    ) {
-      onCopy();
-      toast({
-        title: "Copied!",
-        status: "success",
-        duration: 1000,
-      });
-    } else {
-      selectedQuote(quote);
-    }
+  let user = parseCookies().user;
+  if (user) {
+    user = JSON.parse(user);
+  }
+
+  const copyHandler = () => {
+    onCopy();
+    toast({
+      title: "Copied!",
+      status: "success",
+      duration: 1000,
+    });
   };
 
   return (
-    <GridItem onClick={onClickItem}>
+    <GridItem>
       <Flex
         shadow="lg"
         borderBottomRadius="lg"
@@ -36,9 +50,17 @@ const Quote = ({ quote, borderColor, selectedQuote }) => {
         flexDirection="column"
         alignItems="flex-start"
         height="11rem"
-        cursor="pointer"
       >
-        <Image src="/quote.png" width={30} height={20} />
+        <Flex w="100%" justifyContent="space-between" alignItems="center">
+          <Image src="/quote.png" width={30} height={20} />
+          <IconButton
+            size="xs"
+            aria-label="Show"
+            isRound
+            onClick={() => selectedQuote(quote)}
+            icon={<BiShow />}
+          />
+        </Flex>
         <Text py={2} noOfLines={3} fontSize="lg">
           {quote.content}
         </Text>
@@ -51,8 +73,9 @@ const Quote = ({ quote, borderColor, selectedQuote }) => {
           <Flex>
             <IconButton
               size="xs"
-              aria-label="Copy quote"
+              aria-label="Copy"
               icon={<CopyIcon />}
+              onClick={() => copyHandler()}
               mr={2}
             />
             <Link
@@ -68,6 +91,22 @@ const Quote = ({ quote, borderColor, selectedQuote }) => {
                 icon={<FaTwitter />}
               />
             </Link>
+            {user && user.isSignedIn && router.pathname === "/app/me" && (
+              <Menu closeOnBlur>
+                <MenuButton
+                  as={IconButton}
+                  aria-label="Options"
+                  icon={<IoOptions />}
+                  size="xs"
+                  ml={2}
+                  variant="outline"
+                />
+                <MenuList>
+                  <MenuItem icon={<FaEdit />}>Edit</MenuItem>
+                  <MenuItem icon={<AiFillDelete />}>Delete</MenuItem>
+                </MenuList>
+              </Menu>
+            )}
           </Flex>
           <Flex alignItems="center">
             <FaBook />
