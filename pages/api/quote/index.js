@@ -12,7 +12,7 @@ export default async function handler(req, res) {
       if (query && query.me) {
         [err, quotes] = await to(Quote.find({ userId: query.me }));
       } else {
-        [err, quotes] = await to(Quote.find({}));
+        [err, quotes] = await to(Quote.find({ isPublic: true }));
       }
       if (err) {
         res.status(400).json({ error: true, err });

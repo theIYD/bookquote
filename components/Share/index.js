@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useRouter } from "next/router";
 import {
   Flex,
   FormControl,
@@ -23,6 +24,7 @@ export default function Share({ onClose, isOpen }) {
   const [author, setAuthor] = useState("");
   const [isPublic, setIsPublic] = useState(false);
   const toast = useToast();
+  const router = useRouter();
 
   let isSignedIn = false;
   let name = "",
@@ -63,24 +65,26 @@ export default function Share({ onClose, isOpen }) {
       toast({
         title: data.message,
         status: "success",
-        duration: 2000,
+        duration: 1000,
       });
+
+      onClose();
+      router.reload();
     } else if (data && data.error) {
       toast({
         title: "An error occurred",
         status: "error",
         duration: 2000,
       });
+      onClose();
     }
-
-    onClose();
   };
 
   return (
     <Modal preserveScrollBarGap onClose={onClose} isOpen={isOpen} isCentered>
       <ModalOverlay />
       <ModalContent>
-        <form onSubmit={submitQuote}>
+        <form id="share" onSubmit={submitQuote}>
           <ModalHeader>Share a quote</ModalHeader>
           <ModalBody>
             <Flex flexDirection="column">

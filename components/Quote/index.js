@@ -3,7 +3,7 @@ import { Flex, GridItem, Text, IconButton, Link } from "@chakra-ui/react";
 import { CopyIcon } from "@chakra-ui/icons";
 import Image from "next/image";
 import { useClipboard, useToast } from "@chakra-ui/react";
-import { FaTwitter } from "react-icons/fa";
+import { FaTwitter, FaBook } from "react-icons/fa";
 
 const Quote = ({ quote, borderColor, selectedQuote }) => {
   const [copiedQuote] = useState(`${quote.content} - ${quote.bookName}`);
@@ -35,36 +35,46 @@ const Quote = ({ quote, borderColor, selectedQuote }) => {
         p={4}
         flexDirection="column"
         alignItems="flex-start"
-        height="12rem"
+        height="11rem"
         cursor="pointer"
       >
         <Image src="/quote.png" width={30} height={20} />
         <Text py={2} noOfLines={3} fontSize="lg">
           {quote.content}
         </Text>
-        <Text mt={2} fontSize="xs" w="100%" textAlign="right" as="i">
-          - {quote.bookName}
-        </Text>
-        <Flex marginTop="auto" alignItems="center">
-          <IconButton
-            size="xs"
-            aria-label="Copy quote"
-            icon={<CopyIcon />}
-            mr={2}
-          />
-          <Link
-            isExternal
-            href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(
-              `${'"' + quote.content + '"' + "\n\nfrom " + quote.bookName}`
-            )}`}
-          >
+        <Flex
+          marginTop="auto"
+          alignItems="center"
+          justifyContent="space-between"
+          w="100%"
+        >
+          <Flex>
             <IconButton
-              colorScheme="twitter"
               size="xs"
-              aria-label="Twitter"
-              icon={<FaTwitter />}
+              aria-label="Copy quote"
+              icon={<CopyIcon />}
+              mr={2}
             />
-          </Link>
+            <Link
+              isExternal
+              href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(
+                `${'"' + quote.content + '"' + "\n\nfrom " + quote.bookName}`
+              )}`}
+            >
+              <IconButton
+                colorScheme="twitter"
+                size="xs"
+                aria-label="Twitter"
+                icon={<FaTwitter />}
+              />
+            </Link>
+          </Flex>
+          <Flex alignItems="center">
+            <FaBook />
+            <Text ml="1" fontSize="xs" w="100%" textAlign="right" as="i">
+              {quote.bookName}
+            </Text>
+          </Flex>
         </Flex>
       </Flex>
     </GridItem>

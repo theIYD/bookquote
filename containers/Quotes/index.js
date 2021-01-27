@@ -84,7 +84,7 @@ export default function Quotes({ user }) {
           })}
         {data && data.quotes && data.quotes.length === 0 && (
           <Flex alignItems="center" justifyContent="center">
-            <Text>Share your first quote with us</Text>
+            <Text fontSize="md">Share your first quote with us 👆</Text>
           </Flex>
         )}
         <Modal
