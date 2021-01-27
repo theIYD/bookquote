@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import {
   Grid,
   Box,
@@ -33,6 +33,8 @@ export default function Quotes({ user }) {
   const { data, error } = useSwr(url, fetcher);
   const [quote, setQuote] = useState(null);
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const initialRef = useRef();
+  const finalRef = useRef();
 
   const colors = [
     "#000000",
@@ -80,7 +82,20 @@ export default function Quotes({ user }) {
               </Box>
             );
           })}
-        <Modal onClose={onClose} isOpen={isOpen} isCentered>
+        {data && data.quotes && data.quotes.length === 0 && (
+          <Flex alignItems="center" justifyContent="center">
+            <Text>Share your first quote with us</Text>
+          </Flex>
+        )}
+        <Modal
+          initialFocusRef={initialRef}
+          finalFocusRef={finalRef}
+          onClose={onClose}
+          isOpen={isOpen}
+          motionPreset="slideInBottom"
+          isCentered
+          preserveScrollBarGap
+        >
           <ModalOverlay />
           <ModalContent>
             <ModalHeader>#{quote && quote.hashtag}</ModalHeader>
@@ -93,6 +108,7 @@ export default function Quotes({ user }) {
               <Flex alignItems="center" justifyContent="space-around">
                 <Link
                   isExternal
+                  _focus={{ outline: "none" }}
                   href={`https://www.amazon.in/s?k=${encodeURIComponent(
                     quote && quote.bookName
                   )}`}

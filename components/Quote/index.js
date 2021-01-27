@@ -55,7 +55,7 @@ const Quote = ({ quote, borderColor, selectedQuote }) => {
           <Link
             isExternal
             href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(
-              `${quote.content + "\n\nfrom " + quote.bookName}`
+              `${'"' + quote.content + '"' + "\n\nfrom " + quote.bookName}`
             )}`}
           >
             <IconButton

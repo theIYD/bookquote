@@ -8,7 +8,7 @@ const BaseApp = () => {
   return (
     <Container maxWidth="960px">
       <Nav />
-      <HeaderText text="Public quotes" />
+      <HeaderText text="hub of quotes." />
       <Quotes />
     </Container>
   );

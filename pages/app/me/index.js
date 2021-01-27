@@ -24,7 +24,7 @@ export default function Me() {
       <Nav />
       {!loading ? (
         <>
-          <HeaderText text="Your Quotes" />
+          <HeaderText text="your quotes" />
           <Quotes user={user} />
         </>
       ) : (
