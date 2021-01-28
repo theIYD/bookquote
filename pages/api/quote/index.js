@@ -14,7 +14,7 @@ export default async function handler(req, res) {
   switch (method) {
     case "GET": {
       let err, quotes;
-      let page = query.page || 0;
+      let page = parseInt(query.page) || 0;
       let limit = 9;
       if (query && query.me) {
         [err, quotes] = await to(
@@ -34,7 +34,9 @@ export default async function handler(req, res) {
         return;
       }
 
-      res.status(200).json({ error: false, quotes });
+      res
+        .status(200)
+        .json({ error: false, quotes, nextPage: parseInt(page) + 1 });
       break;
     }
 

@@ -17,7 +17,6 @@ import {
   Text,
   useDisclosure,
 } from "@chakra-ui/react";
-// import useSwr from "swr";
 import { useInfiniteQuery } from "react-query";
 import fetcher from "../../utils/fetcher";
 import { FaAmazon } from "react-icons/fa";
@@ -32,27 +31,24 @@ export default function Quotes({ user }) {
     url = "/api/quote?page=";
   }
 
-  const [page, setPage] = useState(0);
-  const [hasMore, setHasMore] = useState(true);
   const fetchQuotes = ({ pageParam = 0 }) => fetcher(url + pageParam);
 
   const {
     data,
     error,
+    hasNextPage,
     fetchNextPage,
     isFetching,
     isFetchingNextPage,
     status,
   } = useInfiniteQuery("quotes", fetchQuotes, {
     getNextPageParam: (lastPage, pages) => {
-      if (lastPage.quotes.length === 0) {
-        setHasMore(false);
-      }
-      return;
+      if (lastPage.quotes.length !== 0) {
+        return lastPage.nextPage;
+      } else return undefined;
     },
   });
 
-  // const { data, error } = useSwr(url, fetcher);
   const [quote, setQuote] = useState(null);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const initialRef = useRef();
@@ -113,16 +109,15 @@ export default function Quotes({ user }) {
           </Flex>
         )}
       </Grid>
-      <Flex mt={2} mb={4} alignItems="center" justifyContent="center">
-        {hasMore ? (
-          <Button
-            size="xs"
-            onClick={() => {
-              const newPage = page + 1;
-              setPage(newPage);
-              fetchNextPage({ pageParam: newPage });
-            }}
-          >
+      <Flex
+        flexDirection="column"
+        mt={2}
+        mb={4}
+        alignItems="center"
+        justifyContent="center"
+      >
+        {hasNextPage ? (
+          <Button size="xs" onClick={() => fetchNextPage()}>
             Show more
           </Button>
         ) : (
