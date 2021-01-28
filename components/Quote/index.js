@@ -75,7 +75,7 @@ const Quote = ({ quote, borderColor, selectedQuote }) => {
         height="11rem"
       >
         <Flex w="100%" justifyContent="space-between" alignItems="center">
-          <Image src="/quote.png" width={30} height={20} />
+          <Image src="/images/quote.png" width={30} height={20} />
           <IconButton
             size="xs"
             aria-label="Show"

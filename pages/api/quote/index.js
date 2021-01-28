@@ -14,13 +14,24 @@ export default async function handler(req, res) {
   switch (method) {
     case "GET": {
       let err, quotes;
+      let page = query.page || 0;
+      let limit = 9;
       if (query && query.me) {
-        [err, quotes] = await to(Quote.find({ userId: query.me }));
+        [err, quotes] = await to(
+          Quote.find({ userId: query.me })
+            .skip(page * limit)
+            .limit(limit)
+        );
       } else {
-        [err, quotes] = await to(Quote.find({ isPublic: true }));
+        [err, quotes] = await to(
+          Quote.find({ isPublic: true })
+            .skip(page * limit)
+            .limit(limit)
+        );
       }
       if (err) {
         res.status(400).json({ error: true, err });
+        return;
       }
 
       res.status(200).json({ error: false, quotes });

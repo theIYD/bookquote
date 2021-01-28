@@ -1,5 +1,6 @@
 import Head from "next/head";
 import { useRouter } from "next/router";
+import { QueryClient, QueryClientProvider } from "react-query";
 
 import { ChakraProvider, extendTheme } from "@chakra-ui/react";
 import { Global } from "@emotion/react";
@@ -37,6 +38,7 @@ const WrappedApp = ({ Component, pageProps }) => {
     },
   });
 
+  const queryClient = new QueryClient();
   return (
     <ChakraProvider theme={theme}>
       <Global styles={fonts} />
@@ -53,7 +55,9 @@ const WrappedApp = ({ Component, pageProps }) => {
         <link rel="icon" type="image/jpg" href="/favicon.ico"></link>
       </Head>
       {!navBlacklist.includes(router.pathname) && <Nav />}
-      <MyApp Component={Component} pageProps={pageProps} />
+      <QueryClientProvider client={queryClient}>
+        <MyApp Component={Component} pageProps={pageProps} />
+      </QueryClientProvider>
     </ChakraProvider>
   );
 };
