@@ -22,7 +22,7 @@ export default function Share({ onClose, isOpen, edit }) {
   const [quote, setQuote] = useState((edit && edit.content) || "");
   const [book, setBook] = useState((edit && edit.bookName) || "");
   const [author, setAuthor] = useState((edit && edit.author) || "");
-  const [isPublic, setIsPublic] = useState((edit && !!edit.isPublic) || false);
+  const [isPublic, setIsPublic] = useState((edit && !!edit.isPublic) || true);
   const toast = useToast();
   const router = useRouter();
 
