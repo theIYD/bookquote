@@ -1,18 +1,28 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Container, Box, Heading, Flex, Button, Text } from "@chakra-ui/react";
+import {
+  Container,
+  Box,
+  Heading,
+  Flex,
+  Button,
+  Text,
+  Divider,
+  Link as ChakraLink,
+  IconButton,
+} from "@chakra-ui/react";
 import { ImEnter } from "react-icons/im";
 
 const Index = () => {
   return (
-    <>
+    <Box pb={6}>
       <Box
         style={{
           background:
             "linear-gradient(rgba(255,255,255,0.5), rgba(255,255,255,1)), url('/images/bg.jpg') repeat",
         }}
         w="100%"
-        height="100vh"
+        height="60vh"
       >
         <Container
           d="flex"
@@ -30,29 +40,87 @@ const Index = () => {
             >
               Bookquote
             </Heading>
-            <Text
-              textAlign="center"
-              letterSpacing={["-0.06em", "-0.06em", "-0.06em"]}
-              fontSize="2xl"
-              fontWeight="800"
-            >
-              A platform to showcase &amp; store quotes from books which you
-              read.
-            </Text>
+
             <Link href="/app">
-              <Button
+              <IconButton
                 mt={4}
                 colorScheme="messenger"
-                size="md"
-                leftIcon={<ImEnter />}
-              >
-                Enter
-              </Button>
+                size="lg"
+                icon={<ImEnter />}
+              />
             </Link>
           </Flex>
         </Container>
       </Box>
-    </>
+      <Container d="flex" flexDirection="column">
+        <Text
+          letterSpacing={["-0.06em", "-0.06em", "-0.03em"]}
+          fontSize="md"
+          textAlign="justify"
+          fontWeight="400"
+        >
+          It is a platform to showcase &amp; store quotes from your favourite
+          reads. The goal of this project is to provide a personalised
+          experience to readers wanting to save their favourite quotes which
+          they come across daily &amp; have them accessed from anywhere on the
+          internet.
+        </Text>
+        <Divider my={4} />
+        <Text
+          letterSpacing={["-0.06em", "-0.06em", "-0.03em"]}
+          fontSize="md"
+          textAlign="justify"
+          fontWeight="400"
+        >
+          While the readers treasure their chosen quotes on their profile, they
+          have the choice of having it listed publicly on the app.
+        </Text>
+        <br />
+        <Text
+          letterSpacing={["-0.06em", "-0.06em", "-0.03em"]}
+          fontSize="md"
+          textAlign="justify"
+          fontWeight="400"
+        >
+          The project is completely open sourced for contributions &amp;
+          improvements on{" "}
+          <ChakraLink
+            fontWeight="800"
+            isExternal
+            href="https://github.com/theIYD/bookquote"
+          >
+            Github
+          </ChakraLink>
+          .
+        </Text>
+        <Divider mt={4} />
+        <Flex
+          position="fixed"
+          left="0"
+          bottom="2rem"
+          w="100%"
+          alignItems="center"
+          justifyContent="center"
+          textAlign="center"
+        >
+          <Text
+            letterSpacing={["-0.06em", "-0.06em", "-0.03em"]}
+            fontSize="md"
+            fontWeight="400"
+          >
+            Made by{" "}
+            <ChakraLink
+              color="blue.400"
+              fontWeight="800"
+              href="https://theidrees.me"
+              isExternal
+            >
+              @theIYD
+            </ChakraLink>
+          </Text>
+        </Flex>
+      </Container>
+    </Box>
   );
 };
 
