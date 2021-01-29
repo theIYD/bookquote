@@ -15,6 +15,8 @@ import {
 } from "@chakra-ui/react";
 import { FaAmazon } from "react-icons/fa";
 
+import QuoteView from "../QuoteView";
+
 export default function QuoteModal({
   quote,
   initialRef,
@@ -33,8 +35,13 @@ export default function QuoteModal({
       preserveScrollBarGap
     >
       <ModalOverlay />
-      <ModalContent>
-        <ModalHeader>#{quote && quote.hashtag}</ModalHeader>
+      <ModalContent mx={4}>
+        <ModalHeader>
+          <Flex w="100%" alignItems="center" justifyContent="space-between">
+            <Box>#{quote && quote.hashtag}</Box>
+            <QuoteView quoteId={quote && quote._id} />
+          </Flex>
+        </ModalHeader>
         <ModalBody>{quote && quote.content}</ModalBody>
         <ModalFooter
           d="flex"

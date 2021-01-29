@@ -89,7 +89,7 @@ export default function Share({ onClose, isOpen, edit }) {
   return (
     <Modal preserveScrollBarGap onClose={onClose} isOpen={isOpen} isCentered>
       <ModalOverlay />
-      <ModalContent>
+      <ModalContent mx={4}>
         <form id="share" onSubmit={submitQuote}>
           <ModalHeader>Share a quote</ModalHeader>
           <ModalBody>
