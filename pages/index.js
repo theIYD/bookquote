@@ -5,7 +5,6 @@ import {
   Box,
   Heading,
   Flex,
-  Button,
   Text,
   Divider,
   Link as ChakraLink,
@@ -73,7 +72,8 @@ const Index = () => {
           fontWeight="400"
         >
           While the readers treasure their chosen quotes on their profile, they
-          have the choice of having it listed publicly on the app.
+          have the choice of having it <strong>listed publicly</strong> on the
+          app.
         </Text>
         <br />
         <Text
@@ -95,10 +95,7 @@ const Index = () => {
         </Text>
         <Divider mt={4} />
         <Flex
-          position="fixed"
-          left="0"
-          bottom="2rem"
-          w="100%"
+          mt={4}
           alignItems="center"
           justifyContent="center"
           textAlign="center"
