@@ -53,6 +53,19 @@ const WrappedApp = ({ Component, pageProps }) => {
           content="Inspirational, powerful &amp; deep quotes from books across genres."
         ></meta>
         <link rel="icon" type="image/jpg" href="/favicon.ico"></link>
+        <script
+          async
+          src="https://www.googletagmanager.com/gtag/js?id=G-KWK1RNZ029"
+        ></script>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-KWK1RNZ029');`,
+          }}
+        />
       </Head>
       {!navBlacklist.includes(router.pathname) && <Nav />}
       <QueryClientProvider client={queryClient}>
