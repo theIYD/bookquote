@@ -2,26 +2,18 @@ import { useState, useRef } from "react";
 import {
   Grid,
   Box,
-  Modal,
   Flex,
-  IconButton,
-  Link,
-  ModalContent,
-  ModalOverlay,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
   Button,
   Spinner,
-  Divider,
   Text,
   useDisclosure,
 } from "@chakra-ui/react";
 import { useInfiniteQuery } from "react-query";
 import fetcher from "../../utils/fetcher";
-import { FaAmazon } from "react-icons/fa";
 
 import Quote from "../../components/Quote";
+import QuoteModal from "../../components/QuoteModal";
+import colors from "./colors";
 
 export default function Quotes({ user }) {
   let url = "";
@@ -42,7 +34,7 @@ export default function Quotes({ user }) {
     isFetchingNextPage,
     status,
   } = useInfiniteQuery("quotes", fetchQuotes, {
-    getNextPageParam: (lastPage, pages) => {
+    getNextPageParam: (lastPage, _pages) => {
       if (lastPage.quotes.length !== 0) {
         return lastPage.nextPage;
       } else return undefined;
@@ -53,20 +45,6 @@ export default function Quotes({ user }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const initialRef = useRef();
   const finalRef = useRef();
-
-  const colors = [
-    "#000000",
-    "#718096",
-    "#E53E3E",
-    "#DD6B20",
-    "#F6E05E",
-    "#68D391",
-    "#4FD1C5",
-    "#63B3ED",
-    "#76E4F7",
-    "#B794F4",
-    "#F687B3",
-  ];
 
   return status === "loading" ? (
     <Flex mt={2} alignItems="center" justifyContent="center">
@@ -125,57 +103,13 @@ export default function Quotes({ user }) {
         )}
         {isFetching && !isFetchingNextPage ? <Spinner /> : null}
       </Flex>
-      <Modal
-        initialFocusRef={initialRef}
-        finalFocusRef={finalRef}
+      <QuoteModal
+        initialRef={initialRef}
+        finalRef={finalRef}
         onClose={onClose}
         isOpen={isOpen}
-        motionPreset="slideInBottom"
-        isCentered
-        preserveScrollBarGap
-      >
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>#{quote && quote.hashtag}</ModalHeader>
-          <ModalBody>{quote && quote.content}</ModalBody>
-          <ModalFooter
-            d="flex"
-            justifyContent="space-between"
-            alignItems="center"
-          >
-            <Flex alignItems="center" justifyContent="space-around">
-              <Link
-                isExternal
-                _focus={{ outline: "none" }}
-                href={`https://www.amazon.in/s?k=${encodeURIComponent(
-                  quote && quote.bookName
-                )}`}
-              >
-                <IconButton
-                  colorScheme="gray"
-                  size="sm"
-                  aria-label="Amazon"
-                  icon={<FaAmazon />}
-                />
-              </Link>
-              <Box mx={2} height="30px">
-                <Divider orientation="vertical" />
-              </Box>
-              <Text
-                as="b"
-                textColor="#ccc"
-                textTransform="uppercase"
-                fontSize="xs"
-              >
-                Posted by {quote && quote.user !== "G" ? quote.user : "Guest"}
-              </Text>
-            </Flex>
-            <Button size="sm" colorScheme="messenger" onClick={onClose}>
-              Okay
-            </Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
+        quote={quote}
+      />
     </Box>
   );
 }
