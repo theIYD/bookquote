@@ -33,7 +33,7 @@ export default function QuoteModal({
       preserveScrollBarGap
     >
       <ModalOverlay />
-      <ModalContent>
+      <ModalContent mx={4}>
         <ModalHeader>#{quote && quote.hashtag}</ModalHeader>
         <ModalBody>{quote && quote.content}</ModalBody>
         <ModalFooter
