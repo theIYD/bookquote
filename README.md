@@ -4,7 +4,8 @@ A web app focused on showcasing quotes from a variety of reads shared publicly. 
 
 ### Tech Stack
 
-Built using Next.js with Chakra on the UI & Mongo at the database layer with Vercel as a serverless deploy.
+Built using Next.js with Chakra on the UI & Mongo at the database layer with Vercel as a serverless deploy. Used [react-query](https://react-query.tanstack.com/) hooks to fetch quotes from the API.
+Wrote tests for components (in progress) with [Jest](https://jestjs.io/en/) & [react-testing-library](https://testing-library.com/)
 
 ### Contribute
 
