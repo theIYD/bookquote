@@ -24,4 +24,8 @@ describe("<Nav />", () => {
     render(<Nav />);
     expect(screen.getByTestId(brandLogoTestId));
   });
+
+  it("opens `Share` modal on click of CTA", async () => {
+    //   TODO
+  });
 });
