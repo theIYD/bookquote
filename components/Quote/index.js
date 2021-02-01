@@ -21,6 +21,7 @@ import { AiFillDelete } from "react-icons/ai";
 import { BiShow } from "react-icons/bi";
 import { parseCookies } from "nookies";
 
+import { deleteQuote as deleteQuoteService } from "../../services/Quote";
 import Share from "../Share";
 
 const Quote = ({ quote, borderColor, selectedQuote }) => {
@@ -45,15 +46,7 @@ const Quote = ({ quote, borderColor, selectedQuote }) => {
   };
 
   const deleteQuote = async () => {
-    const res = await fetch("/api/quote", {
-      method: "DELETE",
-      body: JSON.stringify({ quoteId: quote._id }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-
-    const data = await res.json();
+    const data = await deleteQuoteService(quote._id);
     if (data && !data.error && data.message) {
       toast({
         title: data.message,
