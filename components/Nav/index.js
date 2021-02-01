@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/router";
@@ -68,7 +68,12 @@ function Nav() {
           <Heading fontWeight="800" size="md">
             <Link href="/">
               <Flex cursor="pointer">
-                <Image src="/images/logo.svg" width="30px" height="30px" />
+                <Image
+                  data-testid="brand-logo"
+                  src="/images/logo.svg"
+                  width="30px"
+                  height="30px"
+                />
               </Flex>
             </Link>
           </Heading>
