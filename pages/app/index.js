@@ -1,3 +1,4 @@
+import React from "react";
 import { Container } from "@chakra-ui/react";
 
 import Quotes from "../../containers/Quotes";
