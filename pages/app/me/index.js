@@ -1,3 +1,4 @@
+import React from "react";
 import { Container } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { parseCookies } from "nookies";

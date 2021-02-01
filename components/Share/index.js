@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { useRouter } from "next/router";
 import {
   Flex,
@@ -17,6 +17,7 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { parseCookies } from "nookies";
+import { createQuote, editQuote } from "../../services/Quote";
 
 export default function Share({ onClose, isOpen, edit }) {
   const [quote, setQuote] = useState((edit && edit.content) || "");
@@ -52,20 +53,12 @@ export default function Share({ onClose, isOpen, edit }) {
       postData["id"] = id;
     }
 
-    const options = {
-      method: "POST",
-      body: JSON.stringify(postData),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    };
-
+    let data = null;
     if (edit && Object.keys(edit).length !== 0) {
-      options.method = "PUT";
+      data = await editQuote(postData);
+    } else {
+      data = await createQuote(postData);
     }
-
-    const res = await fetch("/api/quote", options);
-    const data = await res.json();
 
     if (data && !data.error && data.message) {
       toast({
